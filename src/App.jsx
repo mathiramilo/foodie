@@ -1,7 +1,9 @@
 import { StatusBar } from 'expo-status-bar'
 import { useFonts } from 'expo-font'
 
-import { StyleSheet, ActivityIndicator, Text, View } from 'react-native'
+import { StyleSheet, ActivityIndicator, View } from 'react-native'
+
+import AppNavigator from './navigation'
 
 import theme from './theme'
 
@@ -21,7 +23,7 @@ export default function App() {
   if (!fontsLoaded) {
     return (
       <>
-        <StatusBar style="auto" />
+        <StatusBar style="dark" />
         <View style={styles.container}>
           <ActivityIndicator size="large" color={theme.colors.primary} />
         </View>
@@ -31,11 +33,8 @@ export default function App() {
 
   return (
     <>
-      <StatusBar style="auto" />
-      <View style={styles.container}>
-        <Text>Foodie</Text>
-        <Text>Food Order App</Text>
-      </View>
+      <StatusBar style="dark" />
+      <AppNavigator />
     </>
   )
 }
