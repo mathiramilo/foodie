@@ -1,7 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  user: null,
+  user: {
+    id: 'G843-FMN3-3FND-F3TT',
+    fullName: 'Steven Prosses',
+    email: 'steven.prosses@gmail.com',
+    phone: '+59896034908',
+    imgUrl: 'https://cdn1.iconfinder.com/data/icons/user-pictures/100/male3-64.png',
+    favoriteRestaurants: ['Burger King']
+  },
   token: null
 }
 

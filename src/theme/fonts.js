@@ -11,8 +11,8 @@ export const fonts = {
     thin: 'Montserrat-Thin'
   },
   size: {
-    heading: 32,
-    subheading: 24,
-    text: 16
+    heading: 28,
+    subheading: 16,
+    text: 12
   }
 }

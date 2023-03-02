@@ -1,6 +1,6 @@
 class Order {
-  constructor(restaurantId, date, address, items, total, payment) {
-    this.restaurantId = restaurantId
+  constructor(restaurantData, date, address, items, total, payment) {
+    this.restaurantData = restaurantData
     this.date = date
     this.address = address
     this.items = items

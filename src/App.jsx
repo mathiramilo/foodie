@@ -3,6 +3,9 @@ import { useFonts } from 'expo-font'
 
 import { StyleSheet, ActivityIndicator, View } from 'react-native'
 
+import { Provider } from 'react-redux'
+import { store } from './store'
+
 import AppNavigator from './navigation'
 
 import theme from './theme'
@@ -34,7 +37,9 @@ export default function App() {
   return (
     <>
       <StatusBar style="dark" />
-      <AppNavigator />
+      <Provider store={store}>
+        <AppNavigator />
+      </Provider>
     </>
   )
 }

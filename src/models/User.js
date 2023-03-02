@@ -4,6 +4,7 @@ class User {
     this.email = email
     this.phone = phone
     this.imgUrl = imgUrl
+    this.favoriteRestaurants = []
   }
 }
 
