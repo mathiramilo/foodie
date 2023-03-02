@@ -14,10 +14,14 @@ const orderSlice = createSlice({
     },
     removeItem: (state, action) => {
       state.items = state.items.filter(item => item.id !== action.payload.id)
+    },
+    clearOrder: state => {
+      state.restaurant = null
+      state.items = []
     }
   }
 })
 
-export const { addItem, removeItem } = orderSlice.actions
+export const { addItem, removeItem, clearOrder } = orderSlice.actions
 
 export default orderSlice.reducer

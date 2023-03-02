@@ -4,5 +4,5 @@ export const getFavoriteRestaurants = (restaurants, favorites) =>
 export const getFeaturedRestaurants = restaurants => restaurants.filter(restaurant => restaurant.featured)
 export const getFastestRestaurants = restaurants => {
   const sortedByAvgTimeRestaurants = [...restaurants].sort((a, b) => a.avgTime - b.avgTime)
-  return sortedByAvgTimeRestaurants.slice(0, 4)
+  return sortedByAvgTimeRestaurants.slice(0, 5)
 }

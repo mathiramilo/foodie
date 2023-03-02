@@ -6,16 +6,13 @@ export const styles = StyleSheet.create({
     flex: 1
   },
   restaurantsSection: {
-    marginBottom: 20
+    marginBottom: 36
   },
   restaurantsSectionHeading: {
-    fontSize: 14,
+    fontSize: 16,
     fontFamily: theme.fonts.type.semiBold,
     color: theme.colors.black,
     marginBottom: 14
   },
-  restaurantsSlider: {},
-  restaurantItem: {
-    marginRight: 10
-  }
+  restaurantsSlider: {}
 })

@@ -1,14 +1,15 @@
-import { View, Text, TextInput, TouchableWithoutFeedback, ScrollView } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { View, Text, TouchableWithoutFeedback, ScrollView } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
 
-import { Octicons } from '@expo/vector-icons'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { filterRestaurantsBySearch, filterRestaurantsByTag } from '../../../store/restaurants.slice'
 
 import { getFavoriteRestaurants, getFeaturedRestaurants, getFastestRestaurants, getFirstName } from '../../../utils'
+
 import { RestaurantsList } from '../../../components/food'
+import { DismissKeyboardView, SearchBar } from '../../../components/common'
 
 import { styles } from './styles'
 import theme from '../../../theme'
@@ -21,7 +22,7 @@ const tags = [
   { label: 'Dessert', icon: 'ice-cream' }
 ]
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   const dispatch = useDispatch()
 
   const { user } = useSelector(state => state.auth)
@@ -34,9 +35,12 @@ const HomeScreen = () => {
   const [featuredRestaurants, setFeaturedRestaurants] = useState([])
   const [fastestRestaurants, setFastestRestaurants] = useState([])
 
+  const restaurantsListRef = useRef()
+
   useEffect(() => {
     dispatch(filterRestaurantsByTag({ tag: selectedTag }))
     setSearch('')
+    restaurantsListRef.current?.scrollTo({ animated: true, y: 0 })
   }, [selectedTag])
 
   useEffect(() => {
@@ -54,26 +58,13 @@ const HomeScreen = () => {
   }, [filteredRestaurants])
 
   return (
-    <View style={styles.container}>
+    <DismissKeyboardView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerSubtitle}>Welcome {getFirstName(user.fullName)},</Text>
         <Text style={styles.headerTitle}>Enjoy your meal!</Text>
       </View>
 
-      <View style={styles.searchBarContainer}>
-        <Octicons
-          name="search"
-          style={styles.searchBarIcon}
-          size={24}
-          color={search !== '' ? theme.colors.black : theme.colors.gray}
-        />
-        <TextInput
-          style={styles.searchBarInput}
-          value={search}
-          onChangeText={text => setSearch(text)}
-          placeholder="Search Places"
-        />
-      </View>
+      <SearchBar search={search} setSearch={setSearch} />
 
       <View style={styles.tagFilterContainer}>
         <ScrollView style={styles.tagFilterScroll} horizontal showsHorizontalScrollIndicator={false}>
@@ -103,6 +94,8 @@ const HomeScreen = () => {
         <Text>Loading...</Text>
       ) : (
         <RestaurantsList
+          listRef={restaurantsListRef}
+          navigation={navigation}
           search={search}
           filteredRestaurants={filteredRestaurants}
           favoriteRestaurants={favoriteRestaurants}
@@ -110,7 +103,7 @@ const HomeScreen = () => {
           fastestRestaurants={fastestRestaurants}
         />
       )}
-    </View>
+    </DismissKeyboardView>
   )
 }
 

@@ -5,7 +5,6 @@ import { getRestaurants } from '../services'
 const initialState = {
   items: [],
   filteredItems: [],
-  selected: null,
   loading: false,
   error: null
 }
@@ -29,9 +28,6 @@ const restaurantsSlice = createSlice({
       state.filteredItems = state.items.filter(restaurant =>
         restaurant.name.toLowerCase().includes(search.toLowerCase())
       )
-    },
-    selectRestaurant: (state, action) => {
-      state.selected = action.payload
     }
   },
   extraReducers: builder => {
@@ -50,6 +46,6 @@ const restaurantsSlice = createSlice({
   }
 })
 
-export const { filterRestaurantsByTag, filterRestaurantsBySearch, selectRestaurant } = restaurantsSlice.actions
+export const { filterRestaurantsByTag, filterRestaurantsBySearch } = restaurantsSlice.actions
 
 export default restaurantsSlice.reducer
