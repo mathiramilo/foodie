@@ -1,11 +1,11 @@
-import { View, Text, TouchableOpacity, Image } from 'react-native'
+import { View, Text } from 'react-native'
 import React from 'react'
 
-import { StarsRating } from '../../common'
+import MenuItem from '../menuItem'
 
 import { styles } from './styles'
 
-const CategoryMenuList = ({ category, filteredMenu, handlePressMenuItem }) => {
+const CategoryMenuList = ({ category, filteredMenu, restaurant }) => {
   const filteredMenuByCategory = filteredMenu.filter(item => item.category === category)
 
   if (filteredMenuByCategory.length === 0) return
@@ -15,19 +15,7 @@ const CategoryMenuList = ({ category, filteredMenu, handlePressMenuItem }) => {
       <Text style={styles.menuSectionHeading}>{category}</Text>
       <View style={styles.menuSectionList}>
         {filteredMenuByCategory.map((item, index) => (
-          <TouchableOpacity key={index} onPress={() => handlePressMenuItem(item)}>
-            <View style={styles.menuItem}>
-              <Image style={styles.menuItemImg} resizeMode="cover" source={{ uri: item.imgUrl }} />
-              <View style={styles.menuItemData}>
-                <Text style={styles.menuItemTitle}>{item.name}</Text>
-                <Text style={styles.menuItemDescription}>{item.description}</Text>
-                <View style={styles.menuItemPriceStars}>
-                  <Text style={styles.menuItemPrice}>${item.price.toFixed(2)}</Text>
-                  <StarsRating stars={item.stars} />
-                </View>
-              </View>
-            </View>
-          </TouchableOpacity>
+          <MenuItem key={index} item={item} restaurant={restaurant} />
         ))}
       </View>
     </View>

@@ -72,5 +72,74 @@ export const styles = StyleSheet.create({
   },
   menuContainer: {
     marginRight: 20
+  },
+  menuSection: {
+    marginBottom: 28
+  },
+  menuSectionHeading: {
+    fontSize: 16,
+    fontFamily: theme.fonts.type.semiBold,
+    color: theme.colors.black,
+    marginBottom: 28
+  },
+  placeOrderContainer: {
+    position: 'absolute',
+    bottom: 20,
+    left: 10,
+    right: 10,
+    backgroundColor: theme.colors.white,
+    padding: 12,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    shadowColor: theme.colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 0
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 4.59,
+    elevation: 5,
+    borderRadius: 10
+  },
+  placeOrderPrice: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: 6
+  },
+  placeOrderPriceText: {
+    fontSize: 14,
+    fontFamily: theme.fonts.type.semiBold,
+    color: theme.colors.black,
+    marginLeft: 12
+  },
+  placeOrderCTA: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: theme.colors.primary,
+    paddingVertical: 12,
+    paddingHorizontal: 40,
+    borderRadius: 10
+  },
+  placeOrderCTAText: {
+    fontSize: 14,
+    fontFamily: theme.fonts.type.semiBold,
+    color: theme.colors.white,
+    marginRight: 12
+  },
+  placeOrderCTAQty: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: theme.colors.black,
+    padding: 1,
+    width: 20,
+    height: 20,
+    borderRadius: 4
+  },
+  placeOrderCTAQtyText: {
+    fontSize: 12,
+    fontFamily: theme.fonts.type.medium,
+    color: theme.colors.white
   }
 })

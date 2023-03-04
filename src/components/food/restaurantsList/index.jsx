@@ -1,4 +1,4 @@
-import { View, Text, ScrollView } from 'react-native'
+import { View, Text, ScrollView, FlatList } from 'react-native'
 import React from 'react'
 
 import RestaurantItem from '../restaurantItem'
@@ -23,40 +23,58 @@ const RestaurantsList = ({
       {search !== '' ? (
         <View style={styles.restaurantsSection}>
           <Text style={styles.restaurantsSectionHeading}>Search by "{search}"</Text>
-          <ScrollView style={styles.restaurantsSlider} horizontal showsHorizontalScrollIndicator={false}>
-            {filteredRestaurants.map(restaurant => (
-              <RestaurantItem key={restaurant.name} restaurant={restaurant} navigation={navigation} />
-            ))}
-          </ScrollView>
+          <FlatList
+            data={filteredRestaurants}
+            renderItem={({ item }) => <RestaurantItem restaurant={item} navigation={navigation} />}
+            keyExtractor={item => item.name}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={styles.restaurantsSlider}
+          />
         </View>
       ) : (
         <>
-          <View style={styles.restaurantsSection}>
-            <Text style={styles.restaurantsSectionHeading}>Your Favorite Places</Text>
-            <ScrollView style={styles.restaurantsSlider} horizontal showsHorizontalScrollIndicator={false}>
-              {favoriteRestaurants.map(restaurant => (
-                <RestaurantItem key={restaurant.name} restaurant={restaurant} navigation={navigation} />
-              ))}
-            </ScrollView>
-          </View>
+          {favoriteRestaurants.length !== 0 && (
+            <View style={styles.restaurantsSection}>
+              <Text style={styles.restaurantsSectionHeading}>Your Favorite Places</Text>
+              <FlatList
+                data={favoriteRestaurants}
+                renderItem={({ item }) => <RestaurantItem restaurant={item} navigation={navigation} />}
+                keyExtractor={item => item.name}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                style={styles.restaurantsSlider}
+              />
+            </View>
+          )}
 
-          <View style={styles.restaurantsSection}>
-            <Text style={styles.restaurantsSectionHeading}>Featured Places</Text>
-            <ScrollView style={styles.restaurantsSlider} horizontal showsHorizontalScrollIndicator={false}>
-              {featuredRestaurants.map(restaurant => (
-                <RestaurantItem key={restaurant.name} restaurant={restaurant} navigation={navigation} />
-              ))}
-            </ScrollView>
-          </View>
+          {featuredRestaurants.length !== 0 && (
+            <View style={styles.restaurantsSection}>
+              <Text style={styles.restaurantsSectionHeading}>Featured Places</Text>
+              <FlatList
+                data={featuredRestaurants}
+                renderItem={({ item }) => <RestaurantItem restaurant={item} navigation={navigation} />}
+                keyExtractor={item => item.name}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                style={styles.restaurantsSlider}
+              />
+            </View>
+          )}
 
-          <View style={styles.restaurantsSection}>
-            <Text style={styles.restaurantsSectionHeading}>Fastest Places</Text>
-            <ScrollView style={styles.restaurantsSlider} horizontal showsHorizontalScrollIndicator={false}>
-              {fastestRestaurants.map(restaurant => (
-                <RestaurantItem key={restaurant.name} restaurant={restaurant} navigation={navigation} />
-              ))}
-            </ScrollView>
-          </View>
+          {fastestRestaurants.length !== 0 && (
+            <View style={styles.restaurantsSection}>
+              <Text style={styles.restaurantsSectionHeading}>Fastest Places</Text>
+              <FlatList
+                data={fastestRestaurants}
+                renderItem={({ item }) => <RestaurantItem restaurant={item} navigation={navigation} />}
+                keyExtractor={item => item.name}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                style={styles.restaurantsSlider}
+              />
+            </View>
+          )}
         </>
       )}
     </ScrollView>

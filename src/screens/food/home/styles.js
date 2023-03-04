@@ -36,10 +36,17 @@ export const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 50
   },
+  tagFilterItemIcon: {
+    marginRight: 6
+  },
   tagFilterItemText: {
     fontSize: 14,
     fontFamily: theme.fonts.type.medium,
-    color: theme.colors.black,
-    marginLeft: 6
+    color: theme.colors.black
+  },
+  loadingErrorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 })

@@ -36,7 +36,7 @@ const restaurantsSlice = createSlice({
     }),
       builder.addCase(fetchRestaurants.fulfilled, (state, action) => {
         state.items = action.payload
-        state.filteredItems = action.payload
+        state.filteredItems = action.payload.filter(restaurant => restaurant.tags.includes('Breakfast'))
         state.loading = false
       }),
       builder.addCase(fetchRestaurants.rejected, (state, action) => {

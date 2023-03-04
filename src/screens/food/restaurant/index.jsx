@@ -1,19 +1,21 @@
-import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native'
+import { View, Text, TouchableOpacity, Image, ScrollView, Alert } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
-import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons'
 
 import { useSelector } from 'react-redux'
 
-import { DismissKeyboardView, SearchBar, StarsRating } from '../../../components/common'
+import { DismissKeyboardView, SearchBar } from '../../../components/common'
 
 import theme from '../../../theme'
 import { styles } from './styles'
-import { CategoryMenuList } from '../../../components/food'
+import { CategoryMenuList, MenuItem } from '../../../components/food'
 
 const RestaurantScreen = ({ route, navigation }) => {
   const { restaurant } = route.params
 
   const { menu, categories } = restaurant
+
+  const { items: orderItems, total: orderTotal } = useSelector(state => state.order)
 
   const { user } = useSelector(state => state.auth)
   const isFavorite = user.favoriteRestaurants.some(favorite => favorite === restaurant.name)
@@ -24,7 +26,30 @@ const RestaurantScreen = ({ route, navigation }) => {
 
   const menuListRef = useRef()
 
-  const handlePressMenuItem = item => navigation.navigate('Detail', { item })
+  const handlePlaceOrder = () => navigation.navigate('Order')
+
+  const handleGoBack = () => {
+    if (orderItems.length === 0) {
+      navigation.goBack()
+      return
+    }
+
+    Alert.alert(
+      'Are you sure?',
+      'Your order will be lost if you go back.',
+      [
+        {
+          text: 'Cancel',
+          style: 'destructive'
+        },
+        {
+          text: 'Ok',
+          onPress: () => navigation.goBack()
+        }
+      ],
+      { userInterfaceStyle: 'light' }
+    )
+  }
 
   useEffect(() => {
     setFilteredMenu(menu.filter(item => item.name.toLowerCase().includes(search.toLowerCase())))
@@ -43,7 +68,7 @@ const RestaurantScreen = ({ route, navigation }) => {
   return (
     <DismissKeyboardView style={styles.container}>
       <View style={styles.navigation}>
-        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+        <TouchableOpacity onPress={handleGoBack}>
           <MaterialCommunityIcons name="arrow-left" size={32} color={theme.colors.gray} />
         </TouchableOpacity>
         <TouchableOpacity>
@@ -63,7 +88,7 @@ const RestaurantScreen = ({ route, navigation }) => {
         <Image style={styles.headerImg} resizeMode="contain" source={{ uri: restaurant.logoUrl }} />
       </View>
 
-      <SearchBar search={search} setSearch={setSearch} />
+      <SearchBar placeholder="Search Food" search={search} setSearch={setSearch} />
 
       <View style={styles.categoriesContainer}>
         <TouchableOpacity onPress={() => setSelectedCategory('')}>
@@ -92,38 +117,38 @@ const RestaurantScreen = ({ route, navigation }) => {
       </View>
 
       <ScrollView ref={menuListRef} style={styles.menuContainer} showsVerticalScrollIndicator={false}>
-        {search !== ''
-          ? filteredMenu.map((item, index) => (
-              <View style={styles.menuSection}>
-                <Text style={styles.menuSectionHeading}>Search by "{search}"</Text>
-                <View style={styles.menuSectionList}>
-                  {filteredMenu.map((item, index) => (
-                    <TouchableOpacity key={index} onPress={() => handlePressMenuItem(item)}>
-                      <View style={styles.menuItem}>
-                        <Image style={styles.menuItemImg} resizeMode="cover" source={{ uri: item.imgUrl }} />
-                        <View style={styles.menuItemData}>
-                          <Text style={styles.menuItemTitle}>{item.name}</Text>
-                          <Text style={styles.menuItemDescription}>{item.description}</Text>
-                          <View style={styles.menuItemPriceStars}>
-                            <Text style={styles.menuItemPrice}>${item.price.toFixed(2)}</Text>
-                            <StarsRating stars={item.stars} />
-                          </View>
-                        </View>
-                      </View>
-                    </TouchableOpacity>
-                  ))}
-                </View>
-              </View>
-            ))
-          : categories.map((category, index) => (
-              <CategoryMenuList
-                key={index}
-                category={category}
-                filteredMenu={filteredMenu}
-                handlePressMenuItem={handlePressMenuItem}
-              />
-            ))}
+        {search !== '' ? (
+          <View style={styles.menuSection}>
+            <Text style={styles.menuSectionHeading}>Search by "{search}"</Text>
+            <View style={styles.menuSectionList}>
+              {filteredMenu.map((item, index) => (
+                <MenuItem key={index} item={item} restaurant={restaurant} />
+              ))}
+            </View>
+          </View>
+        ) : (
+          categories.map((category, index) => (
+            <CategoryMenuList key={index} category={category} filteredMenu={filteredMenu} restaurant={restaurant} />
+          ))
+        )}
       </ScrollView>
+
+      {orderItems.length > 0 && (
+        <View style={styles.placeOrderContainer}>
+          <View style={styles.placeOrderPrice}>
+            <FontAwesome5 name="concierge-bell" size={18} color={theme.colors.black} />
+            <Text style={styles.placeOrderPriceText}>${orderTotal.toFixed(2)}</Text>
+          </View>
+          <TouchableOpacity onPress={handlePlaceOrder}>
+            <View style={styles.placeOrderCTA}>
+              <Text style={styles.placeOrderCTAText}>Place Order</Text>
+              <View style={styles.placeOrderCTAQty}>
+                <Text style={styles.placeOrderCTAQtyText}>{orderItems.length}</Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+        </View>
+      )}
     </DismissKeyboardView>
   )
 }

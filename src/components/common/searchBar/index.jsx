@@ -5,7 +5,7 @@ import { Octicons } from '@expo/vector-icons'
 import theme from '../../../theme'
 import { styles } from './styles'
 
-const SearchBar = ({ search, setSearch }) => {
+const SearchBar = ({ placeholder, search, setSearch }) => {
   return (
     <View style={styles.searchBarContainer}>
       <Octicons
@@ -18,7 +18,7 @@ const SearchBar = ({ search, setSearch }) => {
         style={styles.searchBarInput}
         value={search}
         onChangeText={text => setSearch(text)}
-        placeholder="Search Food"
+        placeholder={placeholder}
       />
     </View>
   )
