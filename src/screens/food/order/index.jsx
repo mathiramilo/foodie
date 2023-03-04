@@ -5,6 +5,9 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { increaseItem, decreaseItem, removeItem } from '../../../store/order.slice'
 
+import { NavigationHeader } from '../../../components/common'
+import { OrderResumeCTA } from '../../../components/food'
+
 import theme from '../../../theme'
 import { styles } from './styles'
 
@@ -17,13 +20,7 @@ const OrderScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.navigation}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <MaterialCommunityIcons name="arrow-left" size={32} color={theme.colors.gray} />
-        </TouchableOpacity>
-        <Text style={styles.navigationText}>Your Order</Text>
-        <Image style={styles.navigationImg} resizeMode="contain" source={{ uri: restaurant.logoUrl }} />
-      </View>
+      <NavigationHeader text="Your Order" logoUrl={restaurant.logoUrl} />
 
       <FlatList
         data={items}
@@ -34,20 +31,7 @@ const OrderScreen = ({ navigation }) => {
         style={styles.orderList}
       />
 
-      <View style={styles.orderResume}>
-        <View style={styles.orderResumePrice}>
-          <Text style={styles.orderResumePriceText}>Total order:</Text>
-          <Text style={styles.orderResumePriceAmount}>${total.toFixed(2)}</Text>
-        </View>
-        <TouchableOpacity onPress={() => navigation.navigate('Checkout')}>
-          <View style={styles.orderResumeCTA}>
-            <Text style={styles.orderResumeCTAText}>Place order</Text>
-            <View style={styles.orderResumeCTAQty}>
-              <Text style={styles.orderResumeCTAQtyText}>{items.length}</Text>
-            </View>
-          </View>
-        </TouchableOpacity>
-      </View>
+      <OrderResumeCTA text="Place Order" total={total} navigateTo="Checkout" itemsLength={items.length} />
     </View>
   )
 }

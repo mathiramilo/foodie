@@ -1,7 +1,7 @@
 class Order {
-  constructor(restaurantData, date, address, items, total, payment) {
+  constructor(restaurantData, address, items, total, payment) {
     this.restaurantData = restaurantData
-    this.date = date
+    this.date = new Date()
     this.address = address
     this.items = items
     this.total = total

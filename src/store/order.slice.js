@@ -3,7 +3,10 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   restaurant: null,
   items: [],
-  total: 0
+  total: 0,
+  address: null,
+  paymentType: '',
+  card: null
 }
 
 const isItemInOrder = (items, item) => items.some(orderItem => orderItem.item.name === item.name)
@@ -65,10 +68,23 @@ const orderSlice = createSlice({
       state.restaurant = null
       state.items = []
       state.total = 0
+      state.address = null
+      state.paymentType = ''
+      state.card = null
+    },
+    setAddress: (state, action) => {
+      state.address = action.payload.address
+    },
+    setPaymentType: (state, action) => {
+      state.paymentType = action.payload.paymentType
+    },
+    setCard: (state, action) => {
+      state.card = action.payload.card
     }
   }
 })
 
-export const { addItem, removeItem, decreaseItem, increaseItem, clearOrder } = orderSlice.actions
+export const { addItem, removeItem, decreaseItem, increaseItem, clearOrder, setAddress, setPaymentType, setCard } =
+  orderSlice.actions
 
 export default orderSlice.reducer

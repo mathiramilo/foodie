@@ -9,6 +9,34 @@ const initialState = {
     imgUrl: 'https://cdn1.iconfinder.com/data/icons/user-pictures/100/male3-64.png',
     favoriteRestaurants: ['Burger King']
   },
+  addresses: [
+    {
+      name: 'Steven Prosses',
+      address: '4536 Northwest Boulevard, NY',
+      phone: '+59896034908',
+      tag: 'Home'
+    },
+    {
+      name: 'Steven Prosses',
+      address: '9005 Great St, CHI',
+      phone: '+59896034908',
+      tag: 'Work'
+    }
+  ],
+  cards: [
+    {
+      cardNumber: '590392339283920003900',
+      cardHolder: 'Steven Prosses',
+      expirationDate: '06/25',
+      cvv: '288'
+    },
+    {
+      cardNumber: '490780339283920009932',
+      cardHolder: 'Steven Prosses',
+      expirationDate: '09/27',
+      cvv: '900'
+    }
+  ],
   token: null
 }
 
@@ -26,6 +54,8 @@ const authSlice = createSlice({
     },
     logout: state => {
       state.user = null
+      state.addresses = []
+      state.paymentMethods = []
       state.token = null
     }
   }
