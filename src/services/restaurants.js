@@ -1,4 +1,4 @@
-import { REALTIME_DB_URL } from '../firebase'
+import { REALTIME_DB_URL } from '../firebase/index'
 
 export const getRestaurants = async () => {
   try {
@@ -7,6 +7,7 @@ export const getRestaurants = async () => {
 
     return data
   } catch (error) {
+    console.log(error)
     throw new Error(error.message)
   }
 }

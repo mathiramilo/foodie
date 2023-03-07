@@ -1,26 +1,19 @@
 import { NavigationContainer } from '@react-navigation/native'
 import { useEffect } from 'react'
 
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchRestaurants } from '../store/restaurants.slice'
+import { useSelector } from 'react-redux'
 
 import AuthNavigator from './auth'
 import TabsNavigator from './tabs'
 
 const AppNavigator = () => {
-  const dispatch = useDispatch()
-
-  // const user = useSelector(state => state.auth.user)
+  const { user } = useSelector(state => state.auth)
 
   useEffect(() => {
-    dispatch(fetchRestaurants())
-  }, [])
+    console.log(user)
+  }, [user])
 
-  return (
-    <NavigationContainer>
-      <TabsNavigator />
-    </NavigationContainer>
-  )
+  return <NavigationContainer>{!user ? <AuthNavigator /> : <TabsNavigator />}</NavigationContainer>
 }
 
 export default AppNavigator

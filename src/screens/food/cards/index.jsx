@@ -12,7 +12,7 @@ import { showCardNumberLastDigits, isVisa } from '../../../utils'
 import theme from '../../../theme'
 import { styles } from './styles'
 
-const CardsScreen = () => {
+const CardsScreen = ({ navigation }) => {
   const dispatch = useDispatch()
   const { cards } = useSelector(state => state.auth)
   const { restaurant, items, total, card: orderCard } = useSelector(state => state.order)
@@ -60,7 +60,7 @@ const CardsScreen = () => {
 
         <View style={styles.separatorBar}></View>
 
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity onPress={() => navigation.navigate('Profile', { screen: 'AddCard' })}>
           <View style={styles.addCardBtn}>
             <Text style={styles.addCardBtnIcon}>+</Text>
             <Text style={styles.addCardBtnText}>Add a new card</Text>

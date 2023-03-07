@@ -15,7 +15,7 @@ export const login = async (email, password) => {
     })
 
     if (!response.ok) {
-      throw new Error(data.error.message)
+      throw new Error('Invalid credentials')
     }
 
     const data = await response.json()
@@ -40,11 +40,23 @@ export const register = async (email, password) => {
       })
     })
 
-    if (!response.ok) {
-      throw new Error(data.error.message)
-    }
-
     const data = await response.json()
+
+    if (!response.ok) {
+      const { message } = data.error
+
+      if (message === 'EMAIL_EXISTS') {
+        throw new Error('Email already exists')
+      }
+      if (message === 'INVALID_EMAIL') {
+        throw new Error('Please enter a valid email')
+      }
+      if (message === 'WEAK_PASSWORD : Password should be at least 6 characters') {
+        throw new Error('Password should be at least 6 characters')
+      }
+
+      throw new Error(message)
+    }
 
     return data
   } catch (error) {

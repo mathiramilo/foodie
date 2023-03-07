@@ -1,33 +1,30 @@
-import { REALTIME_DB_URL } from '../firebase'
+import { db } from '../firebase'
+import { child, ref, set, get } from 'firebase/database'
 
 export const getUser = async email => {
   try {
-    const response = await fetch(`${REALTIME_DB_URL}/users.json?equalTo="${email}"`)
-    const data = await response.json()
+    const key = email.split('@')[0]
 
-    return data
+    const dbRef = ref(db)
+    const snapshot = await get(child(dbRef, `users/${key}`))
+
+    if (snapshot.exists()) {
+      return snapshot.val()
+    } else {
+      throw new Error('There is no user with this email')
+    }
   } catch (error) {
     throw new Error(error.message)
   }
 }
 
-export const createUser = async payload => {
+export const createUser = async user => {
   try {
-    const response = fetch(`${REALTIME_DB_URL}/users.json`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload)
-    })
+    const key = user.email.split('@').join('_')
 
-    if (!response.ok) {
-      throw new Error(data.error.message)
-    }
+    set(ref(db, `users/${key}`), user)
 
-    const data = await response.json()
-
-    return data
+    return user
   } catch (error) {
     throw new Error(error.message)
   }

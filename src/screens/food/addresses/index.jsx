@@ -11,7 +11,7 @@ import { OrderResumeCTA } from '../../../components/food'
 import theme from '../../../theme'
 import { styles } from './styles'
 
-const AddressesScreen = () => {
+const AddressesScreen = ({ navigation }) => {
   const dispatch = useDispatch()
   const { addresses } = useSelector(state => state.auth)
   const { restaurant, items, total, address: orderAddress } = useSelector(state => state.order)
@@ -46,7 +46,7 @@ const AddressesScreen = () => {
 
         <View style={styles.separatorBar}></View>
 
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity onPress={() => navigation.navigate('Profile', { screen: 'AddAddress' })}>
           <View style={styles.addAddressBtn}>
             <Text style={styles.addAddressBtnIcon}>+</Text>
             <Text style={styles.addAddressBtnText}>Add a new address</Text>

@@ -3,7 +3,7 @@ import React from 'react'
 
 import { styles } from './styles'
 
-const AddAddressScreen = () => {
+const AddAddressScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text>AddAddressScreen</Text>

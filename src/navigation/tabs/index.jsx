@@ -1,6 +1,10 @@
+import { useEffect } from 'react'
 import { StyleSheet } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons'
+
+import { useDispatch } from 'react-redux'
+import { fetchRestaurants } from '../../store/restaurants.slice'
 
 import FoodNavigator from './food'
 import OrdersNavigator from './orders'
@@ -11,6 +15,12 @@ import theme from '../../theme'
 const Tab = createBottomTabNavigator()
 
 const TabsNavigator = () => {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(fetchRestaurants())
+  }, [])
+
   return (
     <Tab.Navigator
       initialRouteName="Food"

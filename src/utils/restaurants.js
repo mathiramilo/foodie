@@ -1,5 +1,5 @@
 export const getFavoriteRestaurants = (restaurants, favorites) =>
-  restaurants.filter(restaurant => favorites.includes(restaurant.name))
+  restaurants.filter(restaurant => favorites?.includes(restaurant.name))
 
 export const getFeaturedRestaurants = restaurants => restaurants.filter(restaurant => restaurant.featured)
 export const getFastestRestaurants = restaurants => {
