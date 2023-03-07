@@ -1,6 +1,6 @@
 import { REALTIME_DB_URL } from '../firebase'
 
-export const getOrders = async () => {
+export const getOrdersFromUser = async email => {
   try {
     const response = await fetch(`${REALTIME_DB_URL}/orders.json`)
 
@@ -10,7 +10,7 @@ export const getOrders = async () => {
 
     const data = await response.json()
 
-    return data
+    return data ? Object.values(data).filter(order => order.userId === email) : []
   } catch (error) {
     throw new Error(error.message)
   }

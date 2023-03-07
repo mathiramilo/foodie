@@ -1,33 +1,19 @@
-import { View, Text, TouchableOpacity, Image, ScrollView, Alert } from 'react-native'
+import { View, Text, TouchableOpacity, Image, ScrollView, Alert, ActivityIndicator } from 'react-native'
 import React, { useState } from 'react'
 import * as ImagePicker from 'expo-image-picker'
 
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons'
 
-import { storage } from '../../../firebase'
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
-
 import { useDispatch, useSelector } from 'react-redux'
+import { updateUser } from '../../../store/auth.slice'
 
 import { DismissKeyboardView, Input, NavigationHeader } from '../../../components/common'
 
+import { uploadImage } from '../../../utils'
 import theme from '../../../theme'
 import { styles } from './styles'
 
-const uploadImage = async uri => {
-  const storageRef = ref(storage, `users/avatars/${uri.split('/').pop()}`)
-
-  const response = await fetch(uri)
-  const blob = await response.blob()
-
-  await uploadBytes(storageRef, blob)
-
-  const downloadUrl = await getDownloadURL(storageRef)
-
-  return downloadUrl
-}
-
-const ManageInformationScreen = () => {
+const ManageInformationScreen = ({ navigation }) => {
   const dispatch = useDispatch()
   const { user } = useSelector(state => state.auth)
 
@@ -36,6 +22,7 @@ const ManageInformationScreen = () => {
     phone: user.phone
   })
   const [formError, setFormError] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const [pickedUrl, setPickedUrl] = useState(null)
 
@@ -102,10 +89,22 @@ const ManageInformationScreen = () => {
       return
     }
 
+    const userData = {
+      ...user,
+      fullName: formState.fullName,
+      phone: formState.phone
+    }
+
+    setLoading(true)
+
     if (pickedUrl) {
       const downloadUrl = await uploadImage(pickedUrl)
-      // Update user info
+      userData.imgUrl = downloadUrl
     }
+
+    dispatch(updateUser({ email: user.email, userData }))
+    setLoading(false)
+    navigation.goBack()
   }
 
   return (
@@ -176,11 +175,22 @@ const ManageInformationScreen = () => {
           <MaterialIcons name="phone-iphone" size={24} color={theme.colors.black} />
         </View>
 
+        {formError !== '' && (
+          <View style={styles.errorContainer}>
+            <MaterialIcons name="error-outline" size={18} color={theme.colors.red} />
+            <Text style={styles.errorText}>{formError}</Text>
+          </View>
+        )}
+
         <View style={styles.separatorBar}></View>
 
         <TouchableOpacity onPress={handleSaveInformation}>
           <View style={styles.saveBtn}>
-            <Text style={styles.saveBtnText}>Save</Text>
+            {loading ? (
+              <ActivityIndicator size="small" color={theme.colors.black} />
+            ) : (
+              <Text style={styles.saveBtnText}>Save</Text>
+            )}
           </View>
         </TouchableOpacity>
       </ScrollView>

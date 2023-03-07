@@ -1,10 +1,11 @@
 class Order {
-  constructor(restaurantData, address, items, total, payment) {
+  constructor(userId, restaurantData, items, total, address, payment) {
+    this.userId = userId
     this.restaurantData = restaurantData
     this.date = new Date()
-    this.address = address
     this.items = items
     this.total = total
+    this.address = address
     this.payment = payment
   }
 }

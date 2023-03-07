@@ -3,7 +3,7 @@ import { child, ref, set, get } from 'firebase/database'
 
 export const getUser = async email => {
   try {
-    const key = email.split('@')[0]
+    const key = email.split('.').join('-')
 
     const dbRef = ref(db)
     const snapshot = await get(child(dbRef, `users/${key}`))
@@ -20,11 +20,23 @@ export const getUser = async email => {
 
 export const createUser = async user => {
   try {
-    const key = user.email.split('@').join('_')
+    const key = user.email.split('.').join('-')
 
     set(ref(db, `users/${key}`), user)
 
     return user
+  } catch (error) {
+    throw new Error(error.message)
+  }
+}
+
+export const updateUser = async (email, userData) => {
+  try {
+    const key = email.split('.').join('-')
+
+    set(ref(db, `users/${key}`), userData)
+
+    return userData
   } catch (error) {
     throw new Error(error.message)
   }

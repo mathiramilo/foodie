@@ -81,5 +81,18 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: theme.fonts.type.semiBold,
     color: theme.colors.black
+  },
+  errorContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 6,
+    marginBottom: 10
+  },
+  errorText: {
+    fontSize: 12,
+    fontFamily: theme.fonts.type.semiBold,
+    color: theme.colors.red,
+    marginLeft: 8
   }
 })

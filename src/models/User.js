@@ -8,6 +8,7 @@ class User {
     this.phone = phone
     this.imgUrl = DEFAULT_IMG_URL
     this.favoriteRestaurants = []
+    this.addresses = []
   }
 }
 

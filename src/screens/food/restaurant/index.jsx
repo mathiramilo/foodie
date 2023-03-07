@@ -18,7 +18,7 @@ const RestaurantScreen = ({ route, navigation }) => {
   const { items: orderItems, total: orderTotal } = useSelector(state => state.order)
 
   const { user } = useSelector(state => state.auth)
-  const isFavorite = user.favoriteRestaurants.some(favorite => favorite === restaurant.name)
+  const isFavorite = user.favoriteRestaurants?.some(favorite => favorite === restaurant.name)
 
   const [search, setSearch] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('')

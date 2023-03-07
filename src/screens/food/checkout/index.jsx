@@ -4,6 +4,9 @@ import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
 
 import { useSelector } from 'react-redux'
 
+import Order from '../../../models/Order'
+import { createOrder } from '../../../services'
+
 import { NavigationHeader } from '../../../components/common'
 import { OrderResumeCTA } from '../../../components/food'
 
@@ -12,6 +15,7 @@ import { styles } from './styles'
 
 const CheckoutScreen = ({ navigation }) => {
   const { restaurant, items, total, address, paymentType } = useSelector(state => state.order)
+  const { user } = useSelector(state => state.auth)
 
   const handlePlaceOrder = () => {
     if (!address || !paymentType) {
@@ -20,6 +24,17 @@ const CheckoutScreen = ({ navigation }) => {
       })
       return
     }
+
+    // Create new order and save it in the database
+    const newOrder = new Order(
+      user.email,
+      { name: restaurant.name, logoUrl: restaurant.logoUrl },
+      items,
+      total,
+      address,
+      paymentType === 'card' ? 'Credit/Debit Card' : 'Pay Cash'
+    )
+    createOrder(newOrder)
 
     navigation.navigate('Home')
     Alert.alert(
@@ -34,8 +49,8 @@ const CheckoutScreen = ({ navigation }) => {
     <View style={styles.container}>
       <NavigationHeader text="Checkout" logoUrl={restaurant.logoUrl} />
 
-      {/* Address */}
       <ScrollView showsVerticalScrollIndicator={false}>
+        {/* Address */}
         <View style={styles.addressContainer}>
           <Text style={styles.addressTitle}>Select Address</Text>
           {address ? (

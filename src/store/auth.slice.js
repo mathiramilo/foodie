@@ -1,5 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { login as loginService, register as registerService, createUser, getUser } from '../services'
+import {
+  login as loginService,
+  register as registerService,
+  createUser,
+  getUser,
+  updateUser as updateUserService
+} from '../services'
 
 const initialUser = {
   id: 'G843-FMN3-3FND-F3TT',
@@ -25,13 +31,13 @@ const initialAddresses = [
 ]
 const initialCards = [
   {
-    cardNumber: '590392339283920003900',
+    cardNumber: '5903923392838790',
     cardHolder: 'Steven Prosses',
     expirationDate: '06/25',
     cvv: '288'
   },
   {
-    cardNumber: '490780339283920009932',
+    cardNumber: '4907803392832128',
     cardHolder: 'Steven Prosses',
     expirationDate: '09/27',
     cvv: '900'
@@ -39,9 +45,9 @@ const initialCards = [
 ]
 
 const initialState = {
-  user: null,
-  addresses: [],
-  cards: [],
+  user: initialUser,
+  addresses: initialAddresses,
+  cards: initialCards,
   token: null,
   loading: false,
   error: null
@@ -67,14 +73,23 @@ export const register = createAsyncThunk('auth/register', async ({ email, passwo
   }
 })
 
+export const updateUser = createAsyncThunk('auth/updateUser', async ({ email, userData }, thunkAPI) => {
+  try {
+    const updatedUser = await updateUserService(email, userData)
+    return updatedUser
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.message)
+  }
+})
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
     logout: state => {
       state.user = null
-      state.addresses = []
-      state.cards = []
+      // state.addresses = []
+      // state.cards = []
       state.token = null
       state.loading = false
       state.error = null
@@ -111,6 +126,18 @@ const authSlice = createSlice({
         state.error = null
       }),
       builder.addCase(register.rejected, (state, action) => {
+        state.error = action.payload
+        state.loading = false
+      }),
+      builder.addCase(updateUser.pending, state => {
+        state.loading = true
+      }),
+      builder.addCase(updateUser.fulfilled, (state, action) => {
+        state.user = action.payload
+        state.loading = false
+        state.error = null
+      }),
+      builder.addCase(updateUser.rejected, (state, action) => {
         state.error = action.payload
         state.loading = false
       })
