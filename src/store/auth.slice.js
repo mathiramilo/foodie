@@ -49,9 +49,8 @@ const initialState = {
 
 export const login = createAsyncThunk('auth/login', async ({ email, password }, thunkAPI) => {
   try {
-    const loginServiceResponse = await loginService(email, password)
+    await loginService(email, password)
     const user = await getUser(email)
-    console.log(user)
     return user
   } catch (error) {
     return thunkAPI.rejectWithValue(error.message)
@@ -62,10 +61,8 @@ export const register = createAsyncThunk('auth/register', async ({ email, passwo
   try {
     await registerService(email, password)
     const userData = await createUser(user)
-    console.log(userData)
     return userData
   } catch (error) {
-    console.log(error.message)
     return thunkAPI.rejectWithValue(error.message)
   }
 })
@@ -106,7 +103,6 @@ const authSlice = createSlice({
         state.loading = true
       }),
       builder.addCase(register.fulfilled, (state, action) => {
-        console.log(action.payload)
         state.user = action.payload
         // state.addresses = action.payload.addresses
         // state.cards = action.payload.cards
