@@ -31,8 +31,10 @@ https://user-images.githubusercontent.com/42822912/223637748-34c1fe47-4d85-4154-
 Foodie uses firebase as a cloud service for persistence, authentication and storage of multimedia content.
 
 ![foodie-data-model](https://user-images.githubusercontent.com/42822912/223870326-589a13cf-1513-44a1-af98-97bcc4e20062.jpg)
+Data Model
 
 ![foodie-architecture](https://user-images.githubusercontent.com/42822912/223870337-e8b33e34-a5a3-4757-88ed-d6d6e615808b.jpg)
+Architecture
 
 ## App Technical Information
 
