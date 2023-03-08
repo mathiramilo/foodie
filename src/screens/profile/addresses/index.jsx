@@ -18,7 +18,7 @@ const AddressesScreen = ({ navigation }) => {
 
       <ScrollView>
         <View>
-          {addresses.map((address, index) => (
+          {addresses?.map((address, index) => (
             <TouchableOpacity key={index} onPress={() => navigation.navigate('ManageAddress', { address })}>
               <View style={styles.addressItem}>
                 <View style={styles.addressData}>

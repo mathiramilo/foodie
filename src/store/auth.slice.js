@@ -281,8 +281,8 @@ export const removeCard = createAsyncThunk('auth/deleteCard', async ({ id }, thu
 export const loadUser = createAsyncThunk('auth/loadUser', async (_, thunkAPI) => {
   try {
     const user = await getData('user')
-    const addresses = await getData('addresses')
-    const cards = await getData('cards')
+    const addresses = (await getData('addresses')) || []
+    const cards = (await getData('cards')) || []
 
     return { user, addresses, cards }
   } catch (error) {

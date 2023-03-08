@@ -19,7 +19,7 @@ const CardsScreen = ({ navigation }) => {
 
       <ScrollView>
         <View>
-          {cards.map((card, index) => (
+          {cards?.map((card, index) => (
             <TouchableOpacity key={index} onPress={() => navigation.navigate('ManageCard', { card })}>
               <View style={styles.cardItem}>
                 <View style={styles.cardData}>
