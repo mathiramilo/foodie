@@ -18,11 +18,11 @@ Mobile multiplatform food delivery app developed with React Native and Expo for 
 
 ## App Demo
 
-### Authentication and profile management flow.
+#### Authentication and profile management flow.
 
 https://user-images.githubusercontent.com/42822912/223637844-a84557d1-08d9-4c7c-b431-f72289ca4e2d.mov
 
-### Food ordering and orders history flow.
+#### Food ordering and orders history flow.
 
 https://user-images.githubusercontent.com/42822912/223637748-34c1fe47-4d85-4154-adc7-604f524f6d51.mov
 
