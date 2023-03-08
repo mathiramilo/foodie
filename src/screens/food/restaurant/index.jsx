@@ -2,7 +2,8 @@ import { View, Text, TouchableOpacity, Image, ScrollView, Alert } from 'react-na
 import React, { useEffect, useRef, useState } from 'react'
 import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons'
 
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { addFavoriteRestaurant, removeFavoriteRestaurant } from '../../../store/auth.slice'
 
 import { DismissKeyboardView, SearchBar } from '../../../components/common'
 
@@ -13,12 +14,15 @@ import { CategoryMenuList, MenuItem } from '../../../components/food'
 const RestaurantScreen = ({ route, navigation }) => {
   const { restaurant } = route.params
 
+  const dispatch = useDispatch()
+
   const { menu, categories } = restaurant
 
   const { items: orderItems, total: orderTotal } = useSelector(state => state.order)
 
   const { user } = useSelector(state => state.auth)
-  const isFavorite = user.favoriteRestaurants?.some(favorite => favorite === restaurant.name)
+
+  const [isFavorite, setIsFavorite] = useState(user.favorites?.some(favorite => favorite === restaurant.name))
 
   const [search, setSearch] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('')
@@ -51,6 +55,16 @@ const RestaurantScreen = ({ route, navigation }) => {
     )
   }
 
+  const handleAddFavorite = () => {
+    dispatch(addFavoriteRestaurant({ email: user.email, restaurant: restaurant.name }))
+    setIsFavorite(true)
+  }
+
+  const handleRemoveFavorite = () => {
+    dispatch(removeFavoriteRestaurant({ email: user.email, restaurant: restaurant.name }))
+    setIsFavorite(false)
+  }
+
   useEffect(() => {
     setFilteredMenu(menu.filter(item => item.name.toLowerCase().includes(search.toLowerCase())))
   }, [search])
@@ -71,7 +85,7 @@ const RestaurantScreen = ({ route, navigation }) => {
         <TouchableOpacity onPress={handleGoBack}>
           <MaterialCommunityIcons name="arrow-left" size={32} color={theme.colors.gray} />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={isFavorite ? handleRemoveFavorite : handleAddFavorite}>
           <MaterialCommunityIcons
             name={isFavorite ? 'cards-heart' : 'cards-heart-outline'}
             size={32}

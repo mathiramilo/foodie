@@ -3,12 +3,23 @@ import { useFonts } from 'expo-font'
 
 import { StyleSheet, ActivityIndicator, View } from 'react-native'
 
+import { init } from './db'
+
 import { Provider } from 'react-redux'
 import { store } from './store'
 
 import AppNavigator from './navigation'
 
 import theme from './theme'
+
+init()
+  .then(() => {
+    console.log('Database initialized')
+  })
+  .catch(err => {
+    console.log('Database failed to initialize')
+    console.log(err)
+  })
 
 export default function App() {
   const [fontsLoaded] = useFonts({

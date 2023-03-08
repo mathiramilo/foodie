@@ -18,7 +18,7 @@ export const getOrdersFromUser = async email => {
 
 export const createOrder = async order => {
   try {
-    const response = await fetch(`${REALTIME_DB_URL}/orders.json`, {
+    await fetch(`${REALTIME_DB_URL}/orders.json`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -26,13 +26,7 @@ export const createOrder = async order => {
       body: JSON.stringify(order)
     })
 
-    if (!response.ok) {
-      throw new Error('Something went wrong!')
-    }
-
-    const data = await response.json()
-
-    return data
+    return order
   } catch (error) {
     throw new Error(error.message)
   }

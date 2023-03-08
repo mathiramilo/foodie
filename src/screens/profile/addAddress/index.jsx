@@ -1,6 +1,9 @@
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native'
+import { View, Text, ScrollView, TouchableOpacity, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { MaterialIcons } from '@expo/vector-icons'
+
+import { useDispatch, useSelector } from 'react-redux'
+import { addAddress } from '../../../store/auth.slice'
 
 import { Input, NavigationHeader } from '../../../components/common'
 
@@ -8,6 +11,9 @@ import { styles } from './styles'
 import theme from '../../../theme'
 
 const AddAddressScreen = ({ navigation }) => {
+  const dispatch = useDispatch()
+  const { user } = useSelector(state => state.auth)
+
   const [address, setAddress] = useState({
     name: '',
     address: '',
@@ -15,7 +21,16 @@ const AddAddressScreen = ({ navigation }) => {
     phone: ''
   })
 
-  const handleSave = () => {}
+  const handleSave = () => {
+    if (!address.name || !address.address || !address.tag || !address.phone) {
+      return Alert.alert('Error', 'Please fill all the fields', [{ text: 'OK' }], {
+        userInterfaceStyle: 'light'
+      })
+    }
+
+    dispatch(addAddress({ email: user.email, address }))
+    navigation.navigate('Addresses')
+  }
 
   return (
     <View style={styles.container}>

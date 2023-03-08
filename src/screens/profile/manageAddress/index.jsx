@@ -1,6 +1,9 @@
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native'
+import { View, Text, ScrollView, TouchableOpacity, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { MaterialIcons } from '@expo/vector-icons'
+
+import { useDispatch } from 'react-redux'
+import { removeAddress, editAddress } from '../../../store/auth.slice'
 
 import { Input, NavigationHeader } from '../../../components/common'
 
@@ -10,6 +13,8 @@ import { styles } from './styles'
 const ManageAddressScreen = ({ route, navigation }) => {
   const { address } = route.params
 
+  const dispatch = useDispatch()
+
   const [newAddress, setNewAddress] = useState({
     name: address.name,
     address: address.address,
@@ -17,9 +22,35 @@ const ManageAddressScreen = ({ route, navigation }) => {
     phone: address.phone
   })
 
-  const handleDelete = () => {}
+  const handleDelete = () => {
+    return Alert.alert(
+      'Delete',
+      'Are you sure you want to delete this address?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => {
+            dispatch(removeAddress({ id: address.id }))
+            navigation.goBack()
+          }
+        }
+      ],
+      { userInterfaceStyle: 'light' }
+    )
+  }
 
-  const handleSave = () => {}
+  const handleSave = () => {
+    if (!newAddress.name || !newAddress.address || !newAddress.tag || !newAddress.phone) {
+      return Alert.alert('Error', 'Please fill all the fields', [{ text: 'OK' }], {
+        userInterfaceStyle: 'light'
+      })
+    }
+
+    dispatch(editAddress({ id: address.id, address: newAddress }))
+    navigation.goBack()
+  }
 
   return (
     <View style={styles.container}>
@@ -63,7 +94,7 @@ const ManageAddressScreen = ({ route, navigation }) => {
           <Input
             label="Tag"
             value={newAddress.tag}
-            onChangeText={text => setAddress(prev => ({ ...prev, tag: text }))}
+            onChangeText={text => setNewAddress(prev => ({ ...prev, tag: text }))}
             placeholder="Enter a tag for this address"
             placeholderTextColor={theme.colors.black}
             autoCapitalize="words"
@@ -75,7 +106,7 @@ const ManageAddressScreen = ({ route, navigation }) => {
           <Input
             label="Phone"
             value={newAddress.phone}
-            onChangeText={text => setAddress(prev => ({ ...prev, phone: text }))}
+            onChangeText={text => setNewAddress(prev => ({ ...prev, phone: text }))}
             placeholder="Enter your phone"
             placeholderTextColor={theme.colors.black}
             keyboardType="number-pad"

@@ -2,10 +2,10 @@ import { View, Text, TouchableOpacity, ScrollView, Alert } from 'react-native'
 import React from 'react'
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
 
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { addOrder } from '../../../store/orders.slice'
 
 import Order from '../../../models/Order'
-import { createOrder } from '../../../services'
 
 import { NavigationHeader } from '../../../components/common'
 import { OrderResumeCTA } from '../../../components/food'
@@ -14,6 +14,7 @@ import theme from '../../../theme'
 import { styles } from './styles'
 
 const CheckoutScreen = ({ navigation }) => {
+  const dispatch = useDispatch()
   const { restaurant, items, total, address, paymentType } = useSelector(state => state.order)
   const { user } = useSelector(state => state.auth)
 
@@ -34,13 +35,13 @@ const CheckoutScreen = ({ navigation }) => {
       address,
       paymentType === 'card' ? 'Credit/Debit Card' : 'Pay Cash'
     )
-    createOrder(newOrder)
+    dispatch(addOrder({ order: newOrder }))
 
     navigation.navigate('Home')
     Alert.alert(
       'Order Placed!',
       'Your order is being processed, you can see it in your orders',
-      [{ text: 'View Order', onPress: () => {} }, { text: 'Close' }],
+      [{ text: 'View Order', onPress: () => navigation.navigate('Orders', { screen: 'Home' }) }, { text: 'Close' }],
       { userInterfaceStyle: 'light' }
     )
   }

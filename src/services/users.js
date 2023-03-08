@@ -41,3 +41,51 @@ export const updateUser = async (email, userData) => {
     throw new Error(error.message)
   }
 }
+
+export const addFavoriteRestaurant = async (email, restaurant) => {
+  try {
+    const key = email.split('.').join('-')
+
+    const dbRef = ref(db)
+    const snapshot = await get(child(dbRef, `users/${key}`))
+
+    if (snapshot.exists()) {
+      const user = snapshot.val()
+      const favorites = user.favorites || []
+
+      const newFavorites = [...favorites, restaurant]
+
+      set(ref(db, `users/${key}`), { ...user, favorites: newFavorites })
+
+      return newFavorites
+    } else {
+      throw new Error('There is no user with this email')
+    }
+  } catch (error) {
+    throw new Error(error.message)
+  }
+}
+
+export const removeFavoriteRestaurant = async (email, restaurant) => {
+  try {
+    const key = email.split('.').join('-')
+
+    const dbRef = ref(db)
+    const snapshot = await get(child(dbRef, `users/${key}`))
+
+    if (snapshot.exists()) {
+      const user = snapshot.val()
+      const favorites = user.favorites || []
+
+      const newFavorites = favorites.filter(favorite => favorite !== restaurant)
+
+      set(ref(db, `users/${key}`), { ...user, favorites: newFavorites })
+
+      return newFavorites
+    } else {
+      throw new Error('There is no user with this email')
+    }
+  } catch (error) {
+    throw new Error(error.message)
+  }
+}

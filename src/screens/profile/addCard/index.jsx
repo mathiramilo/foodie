@@ -1,6 +1,9 @@
-import { View, Text, TouchableOpacity, ScrollView, Image } from 'react-native'
+import { View, Text, TouchableOpacity, ScrollView, Image, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+
+import { useDispatch, useSelector } from 'react-redux'
+import { addCard } from '../../../store/auth.slice'
 
 import { Input, NavigationHeader } from '../../../components/common'
 
@@ -8,7 +11,10 @@ import { isVisa, formatCardNumber } from '../../../utils'
 import theme from '../../../theme'
 import { styles } from './styles'
 
-const AddCardScreen = () => {
+const AddCardScreen = ({ navigation }) => {
+  const dispatch = useDispatch()
+  const { user } = useSelector(state => state.auth)
+
   const [card, setCard] = useState({
     cardNumber: '',
     cardHolder: '',
@@ -16,7 +22,16 @@ const AddCardScreen = () => {
     cvv: ''
   })
 
-  const handleSave = () => {}
+  const handleSave = () => {
+    if (!card.cardNumber || !card.cardHolder || !card.expirationDate || !card.cvv) {
+      return Alert.alert('Error', 'Please fill all the fields', [{ text: 'OK' }], {
+        userInterfaceStyle: 'light'
+      })
+    }
+
+    dispatch(addCard({ email: user.email, card }))
+    navigation.navigate('Cards')
+  }
 
   return (
     <View style={styles.container}>

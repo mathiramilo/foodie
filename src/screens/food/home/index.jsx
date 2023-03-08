@@ -50,7 +50,7 @@ const HomeScreen = ({ navigation }) => {
   }, [search])
 
   useEffect(() => {
-    const favoriteRestaurants = getFavoriteRestaurants(filteredRestaurants, user.favoriteRestaurants)
+    const favoriteRestaurants = getFavoriteRestaurants(filteredRestaurants, user.favorites)
     const featuredRestaurants = getFeaturedRestaurants(filteredRestaurants)
     const fastestRestaurants = getFastestRestaurants(filteredRestaurants)
 

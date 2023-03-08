@@ -1,6 +1,9 @@
-import { View, Text, TouchableOpacity, ScrollView, Image } from 'react-native'
+import { View, Text, TouchableOpacity, ScrollView, Image, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+
+import { useDispatch } from 'react-redux'
+import { removeCard, editCard } from '../../../store/auth.slice'
 
 import { Input, NavigationHeader } from '../../../components/common'
 
@@ -11,6 +14,8 @@ import { styles } from './styles'
 const ManageCardScreen = ({ route, navigation }) => {
   const { card } = route.params
 
+  const dispatch = useDispatch()
+
   const [newCard, setNewCard] = useState({
     cardNumber: card.cardNumber,
     cardHolder: card.cardHolder,
@@ -18,9 +23,35 @@ const ManageCardScreen = ({ route, navigation }) => {
     cvv: card.cvv
   })
 
-  const handleDelete = () => {}
+  const handleDelete = () => {
+    return Alert.alert(
+      'Delete',
+      'Are you sure you want to delete this card?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => {
+            dispatch(removeCard({ id: card.id }))
+            navigation.goBack()
+          }
+        }
+      ],
+      { userInterfaceStyle: 'light' }
+    )
+  }
 
-  const handleSave = () => {}
+  const handleSave = () => {
+    if (!newCard.cardNumber || !newCard.cardHolder || !newCard.expirationDate || !newCard.cvv) {
+      return Alert.alert('Error', 'Please fill all the fields', [{ text: 'OK' }], {
+        userInterfaceStyle: 'light'
+      })
+    }
+
+    dispatch(editCard({ id: card.id, card: newCard }))
+    navigation.goBack()
+  }
 
   return (
     <View style={styles.container}>
@@ -73,7 +104,7 @@ const ManageCardScreen = ({ route, navigation }) => {
           <Input
             label="Card Number"
             value={newCard.cardNumber}
-            onChangeText={text => newNewCard({ ...newCard, cardNumber: text })}
+            onChangeText={text => setNewCard({ ...newCard, cardNumber: text })}
             placeholder="Enter the card number"
             placeholderTextColor={theme.colors.black}
             keyboardType="number-pad"

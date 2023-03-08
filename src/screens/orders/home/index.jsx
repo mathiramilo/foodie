@@ -1,6 +1,5 @@
 import { View, Text, FlatList, ActivityIndicator } from 'react-native'
-import React, { useCallback } from 'react'
-import { useFocusEffect } from '@react-navigation/native'
+import React, { useEffect } from 'react'
 import { Ionicons } from '@expo/vector-icons'
 
 import { useDispatch, useSelector } from 'react-redux'
@@ -16,11 +15,9 @@ const HomeScreen = () => {
   const { user } = useSelector(state => state.auth)
   const { items: orders, loading, error } = useSelector(state => state.orders)
 
-  useFocusEffect(
-    useCallback(() => {
-      dispatch(fetchOrders({ email: user.email }))
-    }, [user.email])
-  )
+  useEffect(() => {
+    dispatch(fetchOrders({ email: user.email }))
+  }, [dispatch, user.email])
 
   return (
     <View style={styles.container}>

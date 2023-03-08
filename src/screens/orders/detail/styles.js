@@ -35,7 +35,8 @@ export const styles = StyleSheet.create({
   addressSelectedStreet: {
     fontSize: 12,
     fontFamily: theme.fonts.type.regular,
-    color: theme.colors.black
+    color: theme.colors.black,
+    maxWidth: 280
   },
   addressSelectedRight: {},
   addressSelectedTag: {

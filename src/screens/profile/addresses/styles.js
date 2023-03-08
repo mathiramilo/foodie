@@ -39,7 +39,8 @@ export const styles = StyleSheet.create({
   addressDataStreet: {
     fontSize: 12,
     fontFamily: theme.fonts.type.regular,
-    color: theme.colors.black
+    color: theme.colors.black,
+    maxWidth: 280
   },
   separatorBar: {
     width: '100%',

@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { getOrdersFromUser } from '../services'
+import { getOrdersFromUser, createOrder } from '../services'
 
 const initialState = {
   items: [],
@@ -10,7 +10,17 @@ const initialState = {
 export const fetchOrders = createAsyncThunk('orders/fetchOrders', async ({ email }, thunkAPI) => {
   try {
     const orders = await getOrdersFromUser(email)
-    return orders
+    const sortedOrders = orders.sort((a, b) => new Date(b.date) - new Date(a.date))
+    return sortedOrders
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.message)
+  }
+})
+
+export const addOrder = createAsyncThunk('orders/addOrder', async ({ order }, thunkAPI) => {
+  try {
+    await createOrder(order)
+    return order
   } catch (error) {
     return thunkAPI.rejectWithValue(error.message)
   }
@@ -32,6 +42,9 @@ const ordersSlice = createSlice({
       builder.addCase(fetchOrders.rejected, (state, action) => {
         state.error = action.payload
         state.loading = false
+      }),
+      builder.addCase(addOrder.fulfilled, (state, action) => {
+        state.items = [action.payload, ...state.items]
       })
   }
 })
