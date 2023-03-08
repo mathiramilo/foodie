@@ -2,7 +2,7 @@
 
 Mobile multiplatform food delivery app developed with React Native and Expo for the final project of Coderhouse mobile development course.
 
-![Design Image](./design/design.jpg)
+![design](https://user-images.githubusercontent.com/42822912/223870265-7caaa53c-a816-4f9e-a250-0133dc7d9855.jpg)
 
 ## Features
 
@@ -30,11 +30,9 @@ https://user-images.githubusercontent.com/42822912/223637748-34c1fe47-4d85-4154-
 
 Foodie uses firebase as a cloud service for persistence, authentication and storage of multimedia content.
 
-![Data Model](./design/foodie-data-model.jpg)
-Data Model
+![foodie-data-model](https://user-images.githubusercontent.com/42822912/223870326-589a13cf-1513-44a1-af98-97bcc4e20062.jpg)
 
-![Architecture](./design/foodie-architecture.jpg)
-Architecture
+![foodie-architecture](https://user-images.githubusercontent.com/42822912/223870337-e8b33e34-a5a3-4757-88ed-d6d6e615808b.jpg)
 
 ## App Technical Information
 
