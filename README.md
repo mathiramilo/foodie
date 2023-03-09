@@ -2,6 +2,8 @@
 
 Mobile multiplatform food delivery app developed with React Native and Expo for the final project of Coderhouse mobile development course.
 
+In it you can, register or log in to order food, search for restaurants by name or type, add restaurants to your favorite list, manage your order, manage your directions and credit/debit cards, manage your profile, upload a profile picture, among many other things.
+
 ![design](https://user-images.githubusercontent.com/42822912/223870265-7caaa53c-a816-4f9e-a250-0133dc7d9855.jpg)
 
 ## Features
