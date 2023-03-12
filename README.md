@@ -1,6 +1,6 @@
 ﻿# Foodie - Food Delivery App
 
-Mobile multiplatform food delivery app developed with React Native and Expo for the final project of Coderhouse mobile development course.
+Mobile food delivery app developed with React Native and Expo for the final project of Coderhouse mobile development course.
 
 In it you can, register or log in to order food, search for restaurants by name or type, add restaurants to your favorite list, manage your order, manage your directions and credit/debit cards, manage your profile, upload a profile picture, among many other things.
 
@@ -9,7 +9,7 @@ In it you can, register or log in to order food, search for restaurants by name 
 ## Features
 
 1. **`Authentication`** (Users can register and login himselfs)
-2. **`Order Food`** (Users can make orders to any of the restaurants that fooide offers)
+2. **`Order Food`** (Users can make orders to any of the restaurants that foodie offers)
 3. **`Search and Filter Restaurants and Food`** (Users can filter restaurants and food by searching the name or filtering by tags)
 4. **`Favorite Restaurants`** (Users can add restaurants as favorites so they can make orders quickly)
 5. **`Checkout Options`** (Users can increase, decrease or delete items from the order and they can choose the payment method)
